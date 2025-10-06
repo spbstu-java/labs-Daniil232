@@ -1,10 +1,13 @@
 package lab2;
 
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        int choice = 0;
+        boolean validInput = false; // Флаг для проверки корректности ввода
 
         System.out.println("Программа вывода метода (1-4):");
         System.out.println("1. Public methods");
@@ -12,7 +15,16 @@ public class Main {
         System.out.println("3. Protected methods");
         System.out.println("4. All methods");
 
-        int choice = scanner.nextInt();
+        while (!validInput) {
+            System.out.print("Сделайте ваш выбор (1-4): ");
+            try {
+                choice = scanner.nextInt();
+                validInput = true; // Если дошли до этой строки, исключения не было, выходим из цикла
+            } catch (InputMismatchException e) {
+                System.out.println("Ошибка: Пожалуйста, введите цифру от 1 до 4.");
+                scanner.next(); // Очищаем некорректный ввод из буфера
+            }
+        }
 
         TestService service = new TestService();
         MethodExecutor executor = new MethodExecutor();
